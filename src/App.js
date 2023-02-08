@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './Home/Home'
+import Login from './Login/Login'
+import SignUp from './Signup/SignUp'
+import { auth } from './firebase'
+import Todo from './Todo/Todo'
 
-function App() {
+export default function App() {
+  const [username,setUsername] = useState("")
+  useEffect(()=>{
+    auth.onAuthStateChanged((user)=>{
+      if(user){
+        setUsername(user.email.substr(0,user.email.indexOf("@")))
+      }
+      else setUsername("")
+    })
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+       <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/signup' element={<SignUp/>}/>
+        <Route path='/todo' element={<Todo name={username}/>}/>
+       </Routes>
+      </BrowserRouter>
     </div>
-  );
+  )
 }
-
-export default App;
