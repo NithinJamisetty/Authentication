@@ -21,7 +21,7 @@ export default function MainSection(props) {
       )}
       
       {props.active === "TODAY" && <Today list={filteredList} />}
-      {props.active === "NEXT7DAys" && <Next7Days list={filteredList} />}
+      {props.active === "NEXT" && <Next7Days list={filteredList} />}
       </Container>
     </div>
     
